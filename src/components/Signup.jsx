@@ -1,7 +1,50 @@
+import {
+  hasMinLength,
+  isEmail,
+  isEqualToOtherValue,
+  isNotEmpty,
+} from "../util/validation";
+
 export default function Signup() {
   function signupAction(formData) {
-    const enteredEmail = formData.get("email");
-    console.log(enteredEmail);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const confirmPassword = formData.get("confirm-password");
+    const firstName = formData.get("first-name");
+    const lastName = formData.get("last-name");
+    const role = formData.get("role");
+    const terms = formData.get("terms");
+    const acqustionChannel = formData.getAll("acqusition");
+
+    let errors = [];
+
+    if (!isEmail(email)) {
+      errors.push("Invalid email Address.");
+    }
+
+    if (!isNotEmpty(password) || !hasMinLength(password, 6)) {
+      errors.push("You Must Provide a Password with at least six characters .");
+    }
+  }
+
+  if (!isEqualToOtherValue(password, confirmPassword)) {
+    errors.push("Passwords Do Not Match");
+  }
+
+  if (!isNotEmpty(firstName) || isNotEmpty(lastName)) {
+    errors.push("Please Provide Both Your Fisrt and Last Names.");
+  }
+
+  if (!isNotEmpty(role)) {
+    errors.push("Please Select A Role. ");
+  }
+
+  if (!terms) {
+    errrors.push("'You must agree to the terms and conditions");
+  }
+
+  if (acqustionChannel.length === 0) {
+    errors.push("Please Select Atleast 1 Acqusition Channel.");
   }
 
   return (
